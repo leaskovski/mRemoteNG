@@ -515,6 +515,18 @@ namespace mRemoteNG.App
         /// </summary>
         public const int WM_CHANGECBCHAIN = 0x30D;
 
+        /// <summary>
+        /// Sent to a window to tell it that the display has changed.  Can allow it to trigger its own redraw mechanisms.
+        /// </summary>
+        public const int WM_DISPLAYCHANGE = 0x7E;
+
+        #endregion
+
+        #region Windows Event Hooks
+
+        public const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
+        public const uint WINEVENT_OUTOFCONTEXT = 0;
+
         #endregion
 
         #region Window Styles

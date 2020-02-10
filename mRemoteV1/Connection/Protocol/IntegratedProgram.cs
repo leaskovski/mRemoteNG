@@ -13,14 +13,6 @@ namespace mRemoteNG.Connection.Protocol
 {
     public class IntegratedProgram : ProtocolBase
     {
-        #region Constants
-
-        const uint EVENT_SYSTEM_MOVESIZEEND = 0x000B;
-        const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
-        const uint WINEVENT_OUTOFCONTEXT = 0;
-
-        #endregion
-
         #region Private Fields
 
         private ExternalTool _externalTool;
@@ -129,7 +121,7 @@ namespace mRemoteNG.Connection.Protocol
                 Resize(this, new EventArgs());
 
                 handles.Add(_handle, this);
-                hhook = NativeMethods.SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, procDelegate, (uint)_process.Id, 0, WINEVENT_OUTOFCONTEXT);
+                hhook = NativeMethods.SetWinEventHook(NativeMethods.EVENT_OBJECT_LOCATIONCHANGE, NativeMethods.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, procDelegate, (uint)_process.Id, 0, NativeMethods.WINEVENT_OUTOFCONTEXT);
 
                 base.Connect();
                 return true;
@@ -164,6 +156,7 @@ namespace mRemoteNG.Connection.Protocol
                                          InterfaceControl.Width + SystemInformation.FrameBorderSize.Width * 2,
                                          InterfaceControl.Height + SystemInformation.CaptionHeight +
                                          SystemInformation.FrameBorderSize.Height * 2, true);
+                NativeMethods.PostMessage(_handle, NativeMethods.WM_DISPLAYCHANGE, (IntPtr)0, (IntPtr)0);
             }
             catch (Exception ex)
             {
@@ -235,14 +228,13 @@ namespace mRemoteNG.Connection.Protocol
             {
                 return;
             }
-            if (eventType == EVENT_OBJECT_LOCATIONCHANGE)
+            if (eventType == NativeMethods.EVENT_OBJECT_LOCATIONCHANGE)
             {
                 IntegratedProgram owner;
                 handles.TryGetValue(hwnd, out owner);
 
                 if ((owner != null) && (owner.lastResize.AddSeconds(1) < DateTime.Now))
                 {
-                    Thread.Sleep(1000);
                     owner.Resize(owner, new EventArgs());
                 }
             }
