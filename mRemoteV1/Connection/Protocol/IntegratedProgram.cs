@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
 using mRemoteNG.App;
 using mRemoteNG.Messages;
 using mRemoteNG.Tools;
@@ -11,11 +13,28 @@ namespace mRemoteNG.Connection.Protocol
 {
     public class IntegratedProgram : ProtocolBase
     {
+        #region Constants
+
+        const uint EVENT_SYSTEM_MOVESIZEEND = 0x000B;
+        const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
+        const uint WINEVENT_OUTOFCONTEXT = 0;
+
+        #endregion
+
         #region Private Fields
 
         private ExternalTool _externalTool;
         private IntPtr _handle;
         private Process _process;
+        private IntPtr hhook;
+        private DateTime lastResize;
+
+        #endregion
+
+        #region Static Members
+
+        private static NativeMethods.WinEventDelegate procDelegate = new NativeMethods.WinEventDelegate(WinEventProc);
+        private static Dictionary<IntPtr, IntegratedProgram> handles = new Dictionary<IntPtr, IntegratedProgram>();
 
         #endregion
 
@@ -108,6 +127,10 @@ namespace mRemoteNG.Connection.Protocol
                                                                    InterfaceControl.Parent.Handle), true);
 
                 Resize(this, new EventArgs());
+
+                handles.Add(_handle, this);
+                hhook = NativeMethods.SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, procDelegate, (uint)_process.Id, 0, WINEVENT_OUTOFCONTEXT);
+
                 base.Connect();
                 return true;
             }
@@ -132,6 +155,7 @@ namespace mRemoteNG.Connection.Protocol
 
         public override void Resize(object sender, EventArgs e)
         {
+            lastResize = DateTime.Now;
             try
             {
                 if (InterfaceControl.Size == Size.Empty) return;
@@ -159,6 +183,11 @@ namespace mRemoteNG.Connection.Protocol
                 {
                     if (!_process.HasExited)
                     {
+                        _process.CloseMainWindow();
+                        _process.WaitForExit(Settings.Default.MaxPuttyWaitTime * 1000);
+                    }
+                    if (!_process.HasExited)
+                    {
                         _process.Kill();
                     }
                 }
@@ -180,6 +209,9 @@ namespace mRemoteNG.Connection.Protocol
                 }
             }
 
+            NativeMethods.UnhookWinEvent(hhook);
+            handles.Remove(_handle);
+
             base.Close();
         }
 
@@ -190,6 +222,30 @@ namespace mRemoteNG.Connection.Protocol
         private void ProcessExited(object sender, EventArgs e)
         {
             Event_Closed(this);
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        private static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            // filter out non-HWND namechanges... (eg. items within a listbox)
+            if (idObject != 0 || idChild != 0)
+            {
+                return;
+            }
+            if (eventType == EVENT_OBJECT_LOCATIONCHANGE)
+            {
+                IntegratedProgram owner;
+                handles.TryGetValue(hwnd, out owner);
+
+                if ((owner != null) && (owner.lastResize.AddSeconds(1) < DateTime.Now))
+                {
+                    Thread.Sleep(1000);
+                    owner.Resize(owner, new EventArgs());
+                }
+            }
         }
 
         #endregion
