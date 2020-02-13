@@ -121,6 +121,9 @@ namespace mRemoteNG.App
         [DllImport("user32.dll")]
         internal static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
         #endregion
 
         #region Structures
@@ -515,16 +518,11 @@ namespace mRemoteNG.App
         /// </summary>
         public const int WM_CHANGECBCHAIN = 0x30D;
 
-        /// <summary>
-        /// Sent to a window to tell it that the display has changed.  Can allow it to trigger its own redraw mechanisms.
-        /// </summary>
-        public const int WM_DISPLAYCHANGE = 0x7E;
-
         #endregion
 
         #region Windows Event Hooks
 
-        public const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
+        public const uint EVENT_SYSTEM_MOVESIZEEND = 0x000B;
         public const uint WINEVENT_OUTOFCONTEXT = 0;
 
         #endregion
@@ -567,5 +565,6 @@ namespace mRemoteNG.App
         #endregion
 
         #endregion
+
     }
 }

@@ -121,7 +121,7 @@ namespace mRemoteNG.Connection.Protocol
                 Resize(this, new EventArgs());
 
                 handles.Add(_handle, this);
-                hhook = NativeMethods.SetWinEventHook(NativeMethods.EVENT_OBJECT_LOCATIONCHANGE, NativeMethods.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, procDelegate, (uint)_process.Id, 0, NativeMethods.WINEVENT_OUTOFCONTEXT);
+                hhook = NativeMethods.SetWinEventHook(NativeMethods.EVENT_SYSTEM_MOVESIZEEND, NativeMethods.EVENT_SYSTEM_MOVESIZEEND, IntPtr.Zero, procDelegate, (uint)_process.Id, 0, NativeMethods.WINEVENT_OUTOFCONTEXT);
 
                 base.Connect();
                 return true;
@@ -151,12 +151,25 @@ namespace mRemoteNG.Connection.Protocol
             try
             {
                 if (InterfaceControl.Size == Size.Empty) return;
-                NativeMethods.MoveWindow(_handle, -SystemInformation.FrameBorderSize.Width,
-                                         -(SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
-                                         InterfaceControl.Width + SystemInformation.FrameBorderSize.Width * 2,
-                                         InterfaceControl.Height + SystemInformation.CaptionHeight +
-                                         SystemInformation.FrameBorderSize.Height * 2, true);
-                NativeMethods.PostMessage(_handle, NativeMethods.WM_DISPLAYCHANGE, (IntPtr)0, (IntPtr)0);
+
+                Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
+                                                     $"Time: {DateTime.Now} Resizing: {_externalTool.DisplayName}", true);
+
+                NativeMethods.SetWindowPos(_handle,
+                                           IntPtr.Zero,
+                                           -SystemInformation.FrameBorderSize.Width,
+                                           -(SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
+                                           InterfaceControl.Width + (SystemInformation.FrameBorderSize.Width * 2),
+                                           InterfaceControl.Height + SystemInformation.CaptionHeight + (SystemInformation.FrameBorderSize.Height * 2),
+                                           NativeMethods.SWP_NOSENDCHANGING | NativeMethods.SWP_NOMOVE);
+
+                NativeMethods.SetWindowPos(_handle,
+                                           IntPtr.Zero,
+                                           -SystemInformation.FrameBorderSize.Width,
+                                           -(SystemInformation.CaptionHeight + SystemInformation.FrameBorderSize.Height),
+                                           InterfaceControl.Width + (SystemInformation.FrameBorderSize.Width * 2),
+                                           InterfaceControl.Height + SystemInformation.CaptionHeight + (SystemInformation.FrameBorderSize.Height * 2),
+                                           NativeMethods.SWP_NOSENDCHANGING | NativeMethods.SWP_NOSIZE);
             }
             catch (Exception ex)
             {
@@ -223,17 +236,26 @@ namespace mRemoteNG.Connection.Protocol
 
         private static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
+            //handles.TryGetValue(hwnd, out IntegratedProgram towner);
+            //if (towner != null)
+            //{
+            //    Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
+            //                                         $"Time: {DateTime.Now} Event Hook: {towner._externalTool.DisplayName}, Event ID: {eventType.ToString()}, ChildID: {idChild.ToString()}, ObjectID: {idObject.ToString()}", true);
+            //}
+
             // filter out non-HWND namechanges... (eg. items within a listbox)
             if (idObject != 0 || idChild != 0)
             {
                 return;
             }
-            if (eventType == NativeMethods.EVENT_OBJECT_LOCATIONCHANGE)
-            {
-                IntegratedProgram owner;
-                handles.TryGetValue(hwnd, out owner);
 
-                if ((owner != null) && (owner.lastResize.AddSeconds(1) < DateTime.Now))
+            if (eventType == NativeMethods.EVENT_SYSTEM_MOVESIZEEND)
+            {
+                // Perform a lookup of the handle that we have received against our dictionary of handles to integrated program connection objects
+                handles.TryGetValue(hwnd, out IntegratedProgram owner);
+
+                // Filter out any events that might be because of our own resizing, so ignore any events that occur within 3 seconds of us resizing/moving the window
+                if ((owner != null) && (owner.lastResize.AddSeconds(3) < DateTime.Now))
                 {
                     owner.Resize(owner, new EventArgs());
                 }
