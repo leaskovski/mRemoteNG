@@ -50,6 +50,11 @@ namespace mRemoteNG.Connection.Protocol
 
         #region Public Methods
 
+        public bool isRunning()
+        {
+            return !PuttyProcess.HasExited;
+        }
+
         public override bool Connect()
         {
             try
@@ -136,6 +141,11 @@ namespace mRemoteNG.Connection.Protocol
                 }
 
                 PuttyProcess.StartInfo.Arguments = arguments.ToString();
+                // add additional SSH options, f.e. tunnel or noshell parameters that may be specified for the the connnection
+                if (!string.IsNullOrEmpty(InterfaceControl.Info.SSHOptions))
+                {
+                    PuttyProcess.StartInfo.Arguments += " " + InterfaceControl.Info.SSHOptions;
+                }
 
                 PuttyProcess.EnableRaisingEvents = true;
                 PuttyProcess.Exited += ProcessExited;
@@ -169,14 +179,14 @@ namespace mRemoteNG.Connection.Protocol
                     NativeMethods.SetParent(PuttyHandle, InterfaceControl.Handle);
                 }
 
-                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, Language.strPuttyStuff, true);
+                Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg, Language.PuttyStuff, true);
                 Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
-                                                    string.Format(Language.strPuttyHandle, PuttyHandle), true);
+                                                    string.Format(Language.PuttyHandle, PuttyHandle), true);
                 Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
-                                                    string.Format(Language.strPuttyTitle, PuttyProcess.MainWindowTitle),
+                                                    string.Format(Language.PuttyTitle, PuttyProcess.MainWindowTitle),
                                                     true);
                 Runtime.MessageCollector.AddMessage(MessageClass.InformationMsg,
-                                                    string.Format(Language.strPuttyParentHandle,
+                                                    string.Format(Language.PanelHandle,
                                                                   InterfaceControl.Parent.Handle), true);
 
                 Resize(this, new EventArgs());
@@ -201,7 +211,7 @@ namespace mRemoteNG.Connection.Protocol
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.strPuttyFocusFailed + Environment.NewLine + ex.Message,
+                                                    Language.PuttyFocusFailed + Environment.NewLine + ex.Message,
                                                     true);
             }
         }
@@ -234,7 +244,7 @@ namespace mRemoteNG.Connection.Protocol
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.strPuttyResizeFailed + Environment.NewLine + ex.Message,
+                                                    Language.PuttyResizeFailed + Environment.NewLine + ex.Message,
                                                     true);
             }
         }
@@ -251,7 +261,7 @@ namespace mRemoteNG.Connection.Protocol
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.strPuttyKillFailed + Environment.NewLine + ex.Message,
+                                                    Language.PuttyKillFailed + Environment.NewLine + ex.Message,
                                                     true);
             }
 
@@ -262,7 +272,7 @@ namespace mRemoteNG.Connection.Protocol
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.strPuttyDisposeFailed + Environment.NewLine + ex.Message,
+                                                    Language.PuttyDisposeFailed + Environment.NewLine + ex.Message,
                                                     true);
             }
 
@@ -279,7 +289,7 @@ namespace mRemoteNG.Connection.Protocol
             catch (Exception ex)
             {
                 Runtime.MessageCollector.AddMessage(MessageClass.ErrorMsg,
-                                                    Language.strPuttyShowSettingsDialogFailed + Environment.NewLine +
+                                                    Language.PuttyShowSettingsDialogFailed + Environment.NewLine +
                                                     ex.Message, true);
             }
         }

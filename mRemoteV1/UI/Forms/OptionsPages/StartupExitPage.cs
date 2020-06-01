@@ -13,7 +13,7 @@ namespace mRemoteNG.UI.Forms.OptionsPages
 
         public override string PageName
         {
-            get => Language.strStartupExit;
+            get => Language.StartupExit;
             set { }
         }
 
@@ -21,11 +21,11 @@ namespace mRemoteNG.UI.Forms.OptionsPages
         {
             base.ApplyLanguage();
 
-            chkSaveConsOnExit.Text = Language.strSaveConsOnExit;
-            chkReconnectOnStart.Text = Language.strReconnectAtStartup;
-            chkSingleInstance.Text = Language.strAllowOnlySingleInstance;
-            chkStartMinimized.Text = Language.strStartMinimized;
-            chkProperInstallationOfComponentsAtStartup.Text = Language.strCheckProperInstallationOfComponentsAtStartup;
+            chkSaveConsOnExit.Text = Language.SaveConsOnExit;
+            chkReconnectOnStart.Text = Language.ReconnectAtStartup;
+            chkSingleInstance.Text = Language.AllowOnlySingleInstance;
+            chkStartMinimized.Text = Language.StartMinimized;
+            chkProperInstallationOfComponentsAtStartup.Text = Language.CheckProperInstallationOfComponentsAtStartup;
         }
 
         public override void SaveSettings()
@@ -36,7 +36,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             Settings.Default.OpenConsFromLastSession = chkReconnectOnStart.Checked;
             Settings.Default.SingleInstance = chkSingleInstance.Checked;
             Settings.Default.StartMinimized = chkStartMinimized.Checked;
-            Settings.Default.StartupComponentsCheck = chkProperInstallationOfComponentsAtStartup.Checked;
         }
 
         private void StartupExitPage_Load(object sender, EventArgs e)
@@ -45,7 +44,6 @@ namespace mRemoteNG.UI.Forms.OptionsPages
             chkReconnectOnStart.Checked = Settings.Default.OpenConsFromLastSession;
             chkSingleInstance.Checked = Settings.Default.SingleInstance;
             chkStartMinimized.Checked = Settings.Default.StartMinimized;
-            chkProperInstallationOfComponentsAtStartup.Checked = Settings.Default.StartupComponentsCheck;
         }
     }
 }

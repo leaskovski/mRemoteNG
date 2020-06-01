@@ -76,6 +76,8 @@ namespace mRemoteNG.Config.Serializers.Xml
             element.Add(new XAttribute("Hostname", connectionInfo.Hostname));
             element.Add(new XAttribute("Protocol", connectionInfo.Protocol));
             element.Add(new XAttribute("RdpVersion", connectionInfo.RdpVersion.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("SSHTunnelConnectionName", connectionInfo.SSHTunnelConnectionName));
+            element.Add(new XAttribute("SSHOptions", connectionInfo.SSHOptions));
             element.Add(new XAttribute("PuttySession", connectionInfo.PuttySession));
             element.Add(new XAttribute("Port", connectionInfo.Port));
             element.Add(new XAttribute("ConnectToConsole",
@@ -99,6 +101,14 @@ namespace mRemoteNG.Config.Serializers.Xml
                                        connectionInfo.EnableFontSmoothing.ToString().ToLowerInvariant()));
             element.Add(new XAttribute("EnableDesktopComposition",
                                        connectionInfo.EnableDesktopComposition.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("DisableFullWindowDrag",
+                                       connectionInfo.DisableFullWindowDrag.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("DisableMenuAnimations",
+                                       connectionInfo.DisableMenuAnimations.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("DisableCursorShadow",
+                                       connectionInfo.DisableCursorShadow.ToString().ToLowerInvariant()));
+            element.Add(new XAttribute("DisableCursorBlinking",
+                                       connectionInfo.DisableCursorBlinking.ToString().ToLowerInvariant()));
             element.Add(new XAttribute("CacheBitmaps", connectionInfo.CacheBitmaps.ToString().ToLowerInvariant()));
             element.Add(new XAttribute("RedirectDiskDrives",
                                        connectionInfo.RedirectDiskDrives.ToString().ToLowerInvariant()));
@@ -181,6 +191,18 @@ namespace mRemoteNG.Config.Serializers.Xml
                 element.Add(new XAttribute("InheritEnableDesktopComposition",
                                            connectionInfo
                                                .Inheritance.EnableDesktopComposition.ToString().ToLowerInvariant()));
+                element.Add(new XAttribute("InheritDisableFullWindowDrag",
+                                           connectionInfo
+                                               .Inheritance.DisableFullWindowDrag.ToString().ToLowerInvariant()));
+                element.Add(new XAttribute("InheritDisableMenuAnimations",
+                                           connectionInfo
+                                               .Inheritance.DisableMenuAnimations.ToString().ToLowerInvariant()));
+                element.Add(new XAttribute("InheritDisableCursorShadow",
+                                           connectionInfo
+                                               .Inheritance.DisableCursorShadow.ToString().ToLowerInvariant()));
+                element.Add(new XAttribute("InheritDisableCursorBlinking",
+                                           connectionInfo
+                                               .Inheritance.DisableCursorBlinking.ToString().ToLowerInvariant()));
                 element.Add(new XAttribute("InheritDomain",
                                            connectionInfo.Inheritance.Domain.ToString().ToLowerInvariant()));
                 element.Add(
@@ -197,6 +219,10 @@ namespace mRemoteNG.Config.Serializers.Xml
                                            connectionInfo.Inheritance.Protocol.ToString().ToLowerInvariant()));
                 element.Add(new XAttribute("InheritRdpVersion",
                     connectionInfo.Inheritance.RdpVersion.ToString().ToLowerInvariant()));
+                element.Add(new XAttribute("InheritSSHTunnelConnectionName",
+                                           connectionInfo.Inheritance.SSHTunnelConnectionName.ToString().ToLowerInvariant()));
+                element.Add(new XAttribute("InheritSSHOptions",
+                                           connectionInfo.Inheritance.SSHOptions.ToString().ToLowerInvariant()));
                 element.Add(new XAttribute("InheritPuttySession",
                                            connectionInfo.Inheritance.PuttySession.ToString().ToLowerInvariant()));
                 element.Add(new XAttribute("InheritRedirectDiskDrives",
@@ -310,12 +336,18 @@ namespace mRemoteNG.Config.Serializers.Xml
                 element.Add(new XAttribute("InheritDisplayWallpaper", falseString));
                 element.Add(new XAttribute("InheritEnableFontSmoothing", falseString));
                 element.Add(new XAttribute("InheritEnableDesktopComposition", falseString));
+                element.Add(new XAttribute("InheritDisableFullWindowDrag", falseString));
+                element.Add(new XAttribute("InheritDisableMenuAnimations", falseString));
+                element.Add(new XAttribute("InheritDisableCursorShadow", falseString));
+                element.Add(new XAttribute("InheritDisableCursorBlinking", falseString));
                 element.Add(new XAttribute("InheritDomain", falseString));
                 element.Add(new XAttribute("InheritIcon", falseString));
                 element.Add(new XAttribute("InheritPanel", falseString));
                 element.Add(new XAttribute("InheritPassword", falseString));
                 element.Add(new XAttribute("InheritPort", falseString));
                 element.Add(new XAttribute("InheritProtocol", falseString));
+                element.Add(new XAttribute("InheritSSHTunnelConnectionName", falseString));
+                element.Add(new XAttribute("InheritSSHOptions", falseString));
                 element.Add(new XAttribute("InheritPuttySession", falseString));
                 element.Add(new XAttribute("InheritRedirectDiskDrives", falseString));
                 element.Add(new XAttribute("InheritRedirectKeys", falseString));

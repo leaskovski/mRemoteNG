@@ -108,14 +108,14 @@ namespace mRemoteNG.Connection.Protocol
                 }
 
                 NativeMethods.SetParent(_handle, InterfaceControl.Handle);
-                Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg, Language.strIntAppStuff, true);
+                Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg, Language.IntAppStuff, true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.strIntAppHandle, _handle), true);
+                                                     string.Format(Language.IntAppHandle, _handle), true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.strIntAppTitle, _process.MainWindowTitle),
+                                                     string.Format(Language.IntAppTitle, _process.MainWindowTitle),
                                                      true);
                 Runtime.MessageCollector?.AddMessage(MessageClass.InformationMsg,
-                                                     string.Format(Language.strIntAppParentHandle,
+                                                     string.Format(Language.PanelHandle,
                                                                    InterfaceControl.Parent.Handle), true);
 
                 Resize(this, new EventArgs());
@@ -141,7 +141,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddExceptionMessage(Language.strIntAppFocusFailed, ex);
+                Runtime.MessageCollector.AddExceptionMessage(Language.IntAppFocusFailed, ex);
             }
         }
 
@@ -173,7 +173,7 @@ namespace mRemoteNG.Connection.Protocol
             }
             catch (Exception ex)
             {
-                Runtime.MessageCollector.AddExceptionMessage(Language.strIntAppResizeFailed, ex);
+                Runtime.MessageCollector.AddExceptionMessage(Language.IntAppResizeFailed, ex);
             }
         }
 
@@ -199,7 +199,7 @@ namespace mRemoteNG.Connection.Protocol
                 }
                 catch (Exception ex)
                 {
-                    Runtime.MessageCollector.AddExceptionMessage(Language.strIntAppKillFailed, ex);
+                    Runtime.MessageCollector.AddExceptionMessage(Language.IntAppKillFailed, ex);
                 }
 
                 try
@@ -211,7 +211,7 @@ namespace mRemoteNG.Connection.Protocol
                 }
                 catch (Exception ex)
                 {
-                    Runtime.MessageCollector.AddExceptionMessage(Language.strIntAppDisposeFailed, ex);
+                    Runtime.MessageCollector.AddExceptionMessage(Language.IntAppDisposeFailed, ex);
                 }
             }
 

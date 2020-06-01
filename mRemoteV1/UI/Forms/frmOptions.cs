@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using mRemoteNG.Themes;
-using mRemoteNG.Tools;
 
 namespace mRemoteNG.UI.Forms
 {
@@ -15,7 +14,7 @@ namespace mRemoteNG.UI.Forms
         private readonly string _pageName;
         private readonly DisplayProperties _display = new DisplayProperties();
 
-        public FrmOptions() : this(Language.strStartupExit)
+        public FrmOptions() : this(Language.StartupExit)
         {
         }
 
@@ -28,7 +27,7 @@ namespace mRemoteNG.UI.Forms
             Cursor.Current = Cursors.Default;
         }
 
-        private void frmOptions_Load(object sender, EventArgs e)
+        private void FrmOptions_Load(object sender, EventArgs e)
         {
             CompileListOfOptionsPages();
             FontOverrider.FontOverride(this);
@@ -37,10 +36,10 @@ namespace mRemoteNG.UI.Forms
             // ApplyLanguage();
             // Handle the main page here and the individual pages in
             // AddOptionsPagesToListView()  -- one less foreach loop....
-            Text = Language.strOptionsPageTitle;
-            btnOK.Text = Language.strButtonOK;
-            btnCancel.Text = Language.strButtonCancel;
-            btnApply.Text = Language.strButtonApply;
+            Text = Language.OptionsPageTitle;
+            btnOK.Text = Language._Ok;
+            btnCancel.Text = Language._Cancel;
+            btnApply.Text = Language.Apply;
             ApplyTheme();
             ThemeManager.getInstance().ThemeChanged += ApplyTheme;
             lstOptionPages.SelectedIndexChanged += LstOptionPages_SelectedIndexChanged;
@@ -57,7 +56,7 @@ namespace mRemoteNG.UI.Forms
 #if false
         private void ApplyLanguage()
         {
-            Text = Language.strOptionsPageTitle;
+            Text = Language.OptionsPageTitle;
             foreach (var optionPage in _pages.Values)
             {
                 optionPage.ApplyLanguage();
@@ -78,7 +77,8 @@ namespace mRemoteNG.UI.Forms
                 {typeof(UpdatesPage).Name, new UpdatesPage {Dock = DockStyle.Fill}},
                 {typeof(ThemePage).Name, new ThemePage {Dock = DockStyle.Fill}},
                 {typeof(SecurityPage).Name, new SecurityPage {Dock = DockStyle.Fill}},
-                {typeof(AdvancedPage).Name, new AdvancedPage {Dock = DockStyle.Fill}}
+                {typeof(AdvancedPage).Name, new AdvancedPage {Dock = DockStyle.Fill}},
+                {typeof(ComponentsPage).Name, new ComponentsPage {Dock = DockStyle.Fill}},
             };
         }
 

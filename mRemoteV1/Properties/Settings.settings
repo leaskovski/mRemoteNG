@@ -380,14 +380,11 @@
     <Setting Name="UVNCSCPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5500</Value>
     </Setting>
-    <Setting Name="StartupComponentsCheck" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="XULRunnerPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ConDefaultRenderingEngine" Type="System.String" Scope="User">
-      <Value Profile="(Default)">IE</Value>
+      <Value Profile="(Default)">CEF</Value>
     </Setting>
     <Setting Name="InhDefaultRenderingEngine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -480,6 +477,18 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="InhDefaultEnableDesktopComposition" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="InhDefaultDisableFullWindowDrag" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="InhDefaultDisableMenuAnimations" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="InhDefaultDisableCursorShadow" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="InhDefaultDisableCursorBlinking" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ConfirmCloseConnection" Type="System.Int32" Scope="User">
@@ -728,6 +737,18 @@
     <Setting Name="InhDefaultRdpVersion" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="InhDefaultSSHTunnelConnectionName" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConDefaultSSHTunnelConnectionName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="InhDefaultSSHOptions" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConDefaultSSHOptions" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
     <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -735,6 +756,21 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="CloseToTray" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartupComponentsCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConDefaultDisableFullWindowDrag" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConDefaultDisableMenuAnimations" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConDefaultDisableCursorShadow" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConDefaultDisableCursorBlinking" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

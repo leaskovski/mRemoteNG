@@ -34,7 +34,7 @@ mRemoteNG supports the following protocols:
 * rlogin (Remote Login)
 * Raw Socket Connections
 
-For a detailed feature list and general usage support, refer to the [User Manual](https://github.com/mRemoteNG/mRemoteNG/wiki/User-Manual).
+For a detailed feature list and general usage support, refer to the [Documentation](https://mremoteng.readthedocs.io/en/latest/).
 
 ## Installation
 
@@ -52,6 +52,6 @@ If you find mRemoteNG useful and would like to contribute, it would be greatly a
 Check out the [Wiki page](https://github.com/mRemoteNG/mRemoteNG/wiki) on how to configure your development environment and submit a pull request.
 
 ### Translate
-Check out the [Wiki page](https://github.com/mRemoteNG/mRemoteNG/wiki) on how to help make mRemoteNG a polyglot
+Check out the [Wiki page](https://github.com/mRemoteNG/mRemoteNG/wiki) on how to help make mRemoteNG a polyglot.
 
 [![Developed with ReSharper](https://raw.githubusercontent.com/mRemoteNG/mRemoteNG/develop/.github/icon_ReSharper.png)](https://www.jetbrains.com/resharper/)

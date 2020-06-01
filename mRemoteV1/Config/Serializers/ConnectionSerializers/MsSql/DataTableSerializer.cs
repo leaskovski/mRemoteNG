@@ -109,9 +109,11 @@ namespace mRemoteNG.Config.Serializers.MsSql
             dataTable.Columns.Add("DomainName", typeof(string));
             dataTable.Columns.Add("Password", typeof(string));
             dataTable.Columns.Add("Hostname", typeof(string));
-            dataTable.Columns.Add("Protocol", typeof(string));
-            dataTable.Columns.Add("PuttySession", typeof(string));
             dataTable.Columns.Add("Port", typeof(int));
+            dataTable.Columns.Add("Protocol", typeof(string));
+            dataTable.Columns.Add("SSHTunnelConnectionName", typeof(string));
+            dataTable.Columns.Add("SSHOptions", typeof(string));
+            dataTable.Columns.Add("PuttySession", typeof(string));
             dataTable.Columns.Add("ConnectToConsole", typeof(bool));
             dataTable.Columns.Add("UseCredSsp", typeof(bool));
             dataTable.Columns.Add("RenderingEngine", typeof(string));
@@ -123,6 +125,10 @@ namespace mRemoteNG.Config.Serializers.MsSql
             dataTable.Columns.Add("DisplayThemes", typeof(bool));
             dataTable.Columns.Add("EnableFontSmoothing", typeof(bool));
             dataTable.Columns.Add("EnableDesktopComposition", typeof(bool));
+            dataTable.Columns.Add("DisableFullWindowDrag", typeof(bool));
+            dataTable.Columns.Add("DisableMenuAnimations", typeof(bool));
+            dataTable.Columns.Add("DisableCursorShadow", typeof(bool));
+            dataTable.Columns.Add("DisableCursorBlinking", typeof(bool));
             dataTable.Columns.Add("CacheBitmaps", typeof(bool));
             dataTable.Columns.Add("RedirectDiskDrives", typeof(bool));
             dataTable.Columns.Add("RedirectPorts", typeof(bool));
@@ -162,12 +168,18 @@ namespace mRemoteNG.Config.Serializers.MsSql
             dataTable.Columns.Add("InheritDisplayWallpaper", typeof(bool));
             dataTable.Columns.Add("InheritEnableFontSmoothing", typeof(bool));
             dataTable.Columns.Add("InheritEnableDesktopComposition", typeof(bool));
+            dataTable.Columns.Add("InheritDisableFullWindowDrag", typeof(bool));
+            dataTable.Columns.Add("InheritDisableMenuAnimations", typeof(bool));
+            dataTable.Columns.Add("InheritDisableCursorShadow", typeof(bool));
+            dataTable.Columns.Add("InheritDisableCursorBlinking", typeof(bool));
             dataTable.Columns.Add("InheritDomain", typeof(bool));
             dataTable.Columns.Add("InheritIcon", typeof(bool));
             dataTable.Columns.Add("InheritPanel", typeof(bool));
             dataTable.Columns.Add("InheritPassword", typeof(bool));
             dataTable.Columns.Add("InheritPort", typeof(bool));
             dataTable.Columns.Add("InheritProtocol", typeof(bool));
+            dataTable.Columns.Add("InheritSSHTunnelConnectionName", typeof(bool));
+            dataTable.Columns.Add("InheritSSHOptions", typeof(bool));
             dataTable.Columns.Add("InheritPuttySession", typeof(bool));
             dataTable.Columns.Add("InheritRedirectDiskDrives", typeof(bool));
             dataTable.Columns.Add("InheritRedirectKeys", typeof(bool));
@@ -293,6 +305,10 @@ namespace mRemoteNG.Config.Serializers.MsSql
              dataRow["DisplayThemes"].Equals(connectionInfo.DisplayThemes) &&
              dataRow["EnableFontSmoothing"].Equals(connectionInfo.EnableFontSmoothing) &&
              dataRow["EnableDesktopComposition"].Equals(connectionInfo.EnableDesktopComposition) &&
+             dataRow["DisableFullWindowDrag"].Equals(connectionInfo.DisableFullWindowDrag) &&
+             dataRow["DisableMenuAnimations"].Equals(connectionInfo.DisableMenuAnimations) &&
+             dataRow["DisableCursorShadow"].Equals(connectionInfo.DisableCursorShadow) &&
+             dataRow["DisableCursorBlinking"].Equals(connectionInfo.DisableCursorBlinking) &&
              dataRow["CacheBitmaps"].Equals(connectionInfo.CacheBitmaps) &&
              dataRow["RedirectDiskDrives"].Equals(connectionInfo.RedirectDiskDrives) &&
              dataRow["RedirectPorts"].Equals(connectionInfo.RedirectPorts) &&
@@ -339,6 +355,10 @@ namespace mRemoteNG.Config.Serializers.MsSql
                 dataRow["InheritDisplayWallpaper"].Equals(connectionInfo.Inheritance.DisplayWallpaper) &&
                 dataRow["InheritEnableFontSmoothing"].Equals(connectionInfo.Inheritance.EnableFontSmoothing) &&
                 dataRow["InheritEnableDesktopComposition"].Equals(connectionInfo.Inheritance.EnableDesktopComposition) &&
+                dataRow["InheritDisableFullWindowDrag"].Equals(connectionInfo.Inheritance.DisableFullWindowDrag) &&
+                dataRow["InheritDisableMenuAnimations"].Equals(connectionInfo.Inheritance.DisableMenuAnimations) &&
+                dataRow["InheritDisableCursorShadow"].Equals(connectionInfo.Inheritance.DisableCursorShadow) &&
+                dataRow["InheritDisableCursorBlinking"].Equals(connectionInfo.Inheritance.DisableCursorBlinking) &&
                 dataRow["InheritDomain"].Equals(connectionInfo.Inheritance.Domain) &&
                 dataRow["InheritIcon"].Equals(connectionInfo.Inheritance.Icon) &&
                 dataRow["InheritPanel"].Equals(connectionInfo.Inheritance.Panel) &&
@@ -402,6 +422,10 @@ namespace mRemoteNG.Config.Serializers.MsSql
                 dataRow["InheritDisplayWallpaper"].Equals(false) &&
                 dataRow["InheritEnableFontSmoothing"].Equals(false) &&
                 dataRow["InheritEnableDesktopComposition"].Equals(false) &&
+                dataRow["InheritDisableFullWindowDrag"].Equals(false) &&
+                dataRow["InheritDisableMenuAnimations"].Equals(false) &&
+                dataRow["InheritDisableCursorShadow"].Equals(false) &&
+                dataRow["InheritDisableCursorBlinking"].Equals(false) &&
                 dataRow["InheritDomain"].Equals(false) &&
                 dataRow["InheritIcon"].Equals(false) &&
                 dataRow["InheritPanel"].Equals(false) &&
@@ -497,6 +521,8 @@ namespace mRemoteNG.Config.Serializers.MsSql
             dataRow["Hostname"] = connectionInfo.Hostname;
             dataRow["VmId"] = connectionInfo.VmId;
             dataRow["Protocol"] = connectionInfo.Protocol;
+            dataRow["SSHTunnelConnectionName"] = connectionInfo.SSHTunnelConnectionName;
+            dataRow["SSHOptions"] = connectionInfo.SSHOptions;
             dataRow["PuttySession"] = connectionInfo.PuttySession;
             dataRow["Port"] = connectionInfo.Port;
             dataRow["ConnectToConsole"] = connectionInfo.UseConsoleSession;
@@ -516,6 +542,10 @@ namespace mRemoteNG.Config.Serializers.MsSql
             dataRow["DisplayThemes"] = connectionInfo.DisplayThemes;
             dataRow["EnableFontSmoothing"] = connectionInfo.EnableFontSmoothing;
             dataRow["EnableDesktopComposition"] = connectionInfo.EnableDesktopComposition;
+            dataRow["DisableFullWindowDrag"] = connectionInfo.DisableFullWindowDrag;
+            dataRow["DisableMenuAnimations"] = connectionInfo.DisableMenuAnimations;
+            dataRow["DisableCursorShadow"] = connectionInfo.DisableCursorShadow;
+            dataRow["DisableCursorBlinking"] = connectionInfo.DisableCursorBlinking;
             dataRow["CacheBitmaps"] = connectionInfo.CacheBitmaps;
             dataRow["RedirectDiskDrives"] = connectionInfo.RedirectDiskDrives;
             dataRow["RedirectPorts"] = connectionInfo.RedirectPorts;
@@ -562,12 +592,18 @@ namespace mRemoteNG.Config.Serializers.MsSql
                 dataRow["InheritDisplayWallpaper"] = connectionInfo.Inheritance.DisplayWallpaper;
                 dataRow["InheritEnableFontSmoothing"] = connectionInfo.Inheritance.EnableFontSmoothing;
                 dataRow["InheritEnableDesktopComposition"] = connectionInfo.Inheritance.EnableDesktopComposition;
+                dataRow["InheritDisableFullWindowDrag"] = connectionInfo.Inheritance.DisableFullWindowDrag;
+                dataRow["InheritDisableMenuAnimations"] = connectionInfo.Inheritance.DisableMenuAnimations;
+                dataRow["InheritDisableCursorShadow"] = connectionInfo.Inheritance.DisableCursorShadow;
+                dataRow["InheritDisableCursorBlinking"] = connectionInfo.Inheritance.DisableCursorBlinking;
                 dataRow["InheritDomain"] = connectionInfo.Inheritance.Domain;
                 dataRow["InheritIcon"] = connectionInfo.Inheritance.Icon;
                 dataRow["InheritPanel"] = connectionInfo.Inheritance.Panel;
                 dataRow["InheritPassword"] = connectionInfo.Inheritance.Password;
                 dataRow["InheritPort"] = connectionInfo.Inheritance.Port;
                 dataRow["InheritProtocol"] = connectionInfo.Inheritance.Protocol;
+                dataRow["InheritSSHTunnelConnectionName"] = connectionInfo.Inheritance.SSHTunnelConnectionName;
+                dataRow["InheritSSHOptions"] = connectionInfo.Inheritance.SSHOptions;
                 dataRow["InheritPuttySession"] = connectionInfo.Inheritance.PuttySession;
                 dataRow["InheritRedirectDiskDrives"] = connectionInfo.Inheritance.RedirectDiskDrives;
                 dataRow["InheritRedirectKeys"] = connectionInfo.Inheritance.RedirectKeys;
@@ -625,12 +661,18 @@ namespace mRemoteNG.Config.Serializers.MsSql
                 dataRow["InheritDisplayWallpaper"] = false;
                 dataRow["InheritEnableFontSmoothing"] = false;
                 dataRow["InheritEnableDesktopComposition"] = false;
+                dataRow["InheritDisableFullWindowDrag"] = false;
+                dataRow["InheritDisableMenuAnimations"] = false;
+                dataRow["InheritDisableCursorShadow"] = false;
+                dataRow["InheritDisableCursorBlinking"] = false;
                 dataRow["InheritDomain"] = false;
                 dataRow["InheritIcon"] = false;
                 dataRow["InheritPanel"] = false;
                 dataRow["InheritPassword"] = false;
                 dataRow["InheritPort"] = false;
                 dataRow["InheritProtocol"] = false;
+                dataRow["InheritSSHTunnelConnectionName"] = false;
+                dataRow["InheritSSHOptions"] = false;
                 dataRow["InheritPuttySession"] = false;
                 dataRow["InheritRedirectDiskDrives"] = false;
                 dataRow["InheritRedirectKeys"] = false;

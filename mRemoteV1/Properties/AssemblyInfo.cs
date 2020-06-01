@@ -11,9 +11,9 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("mRemoteNG")]
 [assembly: AssemblyDescription("Multi-protocol remote connections manager")]
-[assembly: AssemblyCompany("The mRemoteNG Team")]
+[assembly: AssemblyCompany("mRemoteNG")]
 [assembly: AssemblyProduct("mRemoteNG")]
-[assembly: AssemblyCopyright("2019 mRemoteNG Dev Team, 2010-2013 Riley McArdle, 2007-2009 Felix Deimel")]
+[assembly: AssemblyCopyright("2020 mRemoteNG Dev Team, 2010-2013 Riley McArdle, 2007-2009 Felix Deimel")]
 [assembly: AssemblyTrademark("")]
 
 [assembly: ComVisible(false)]
